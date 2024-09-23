@@ -1,8 +1,17 @@
+import { Content, Layout, Sidebar } from '@/components'
+import { ActionButtonsRow } from './components'
+
 function App(): JSX.Element {
   return (
-    <div className="flex h-full items-center justify-center">
-      <span className="text-4xl text-blue-500">Hello from Electron</span>
-    </div>
+    <>
+      {/* <DraggableTopBar /> */}
+      <Layout>
+        <Sidebar className="p-2">
+          <ActionButtonsRow className="flex justify-between mt-1" />
+        </Sidebar>
+        <Content className="border-l bg-zinc-800/50 border-l-white/20">Content</Content>
+      </Layout>
+    </>
   )
 }
 
