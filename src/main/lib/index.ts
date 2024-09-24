@@ -1,10 +1,10 @@
 import { dialog } from 'electron'
-import { ensureDir, readdir, readFile, stat, writeFile } from 'fs-extra'
+import { ensureDir, readdir, readFile, remove, stat, writeFile } from 'fs-extra'
 import { homedir } from 'node:os'
 import path from 'node:path'
 import { appDirectoryName, fileEncoding } from 'src/shared/constants'
 import { NoteInfo } from 'src/shared/models'
-import { CreateNote, GetNotes, ReadNote, WriteNote } from 'src/shared/types'
+import { CreateNote, DeleteNote, GetNotes, ReadNote, WriteNote } from 'src/shared/types'
 
 export const getRootDir = () => `${homedir()}\\${appDirectoryName}`
 
@@ -76,4 +76,25 @@ export const createNote: CreateNote = async () => {
   console.info(`Creating note: ${filePath}`)
   await writeFile(filePath, '')
   return fileName
+}
+
+export const deleteNote: DeleteNote = async (fileName) => {
+  const rootDir = getRootDir()
+  const { response } = await dialog.showMessageBox({
+    type: 'warning',
+    title: 'Delete note',
+    message: `Are you sure you want to delete ${fileName}`,
+    buttons: ['Delete', 'Cancel'],
+    defaultId: 1,
+    cancelId: 1
+  })
+
+  if (response === 1) {
+    console.info('Note deletion canceled')
+    return false
+  }
+
+  console.info(`Deleting note: ${fileName}`)
+  await remove(`${rootDir}/${fileName}.md`)
+  return true
 }
