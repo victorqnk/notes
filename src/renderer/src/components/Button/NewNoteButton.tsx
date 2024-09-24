@@ -8,7 +8,7 @@ export const NewNoteButton = ({ ...props }: ActionButtonProps) => {
   const createEmptyNote = useSetAtom(createEmptyNoteAtom)
 
   return (
-    <ActionButton onClick={() => createEmptyNote()} {...props}>
+    <ActionButton onClick={async () => await createEmptyNote()} {...props}>
       <LuFileSignature className="w-4 h-4 text-zinc-300" />
     </ActionButton>
   )
